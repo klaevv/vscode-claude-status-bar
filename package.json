@@ -1,0 +1,59 @@
+{
+  "name": "claude-status-bar",
+  "displayName": "Claude Status Bar",
+  "description": "Local-only Claude Code context usage in the VS Code status bar.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "compile": "tsc -p .",
+    "check": "tsc -p . --noEmit",
+    "test": "npm run compile && node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.2"
+  },
+  "contributes": {
+    "commands": [
+      { "command": "claudeStatus.refresh", "title": "Claude Status: Refresh" },
+      { "command": "claudeStatus.showUsage", "title": "Claude Status: Show Usage" },
+      { "command": "claudeStatus.openProjectsFolder", "title": "Claude Status: Open Projects Folder" }
+    ],
+    "configuration": {
+      "title": "Claude Status Bar",
+      "properties": {
+        "claudeStatus.claudeHome": {
+          "type": "string",
+          "default": "~/.claude",
+          "description": "Claude Code data directory. A leading ~ is expanded."
+        },
+        "claudeStatus.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 5,
+          "description": "How often to scan local transcripts."
+        },
+        "claudeStatus.lookbackDays": {
+          "type": "number",
+          "default": 7,
+          "minimum": 1,
+          "maximum": 365,
+          "description": "Maximum transcript age to consider."
+        },
+        "claudeStatus.contextWindowTokens": {
+          "type": "number",
+          "default": 200000,
+          "minimum": 1,
+          "description": "Fallback context-window size when a transcript does not identify one."
+        }
+      }
+    }
+  }
+}
