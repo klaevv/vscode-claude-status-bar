@@ -22,14 +22,15 @@ export function renderStatus(snapshot: Snapshot, fallbackWindow: number): Render
   const tooltip = [
     "### Claude Code context",
     "",
-    `**${rounded}%** — ${tokens(snapshot.contextTokens)} / ${tokens(limit)} tokens`,
+    `**${tokens(snapshot.contextTokens)} / ${tokens(limit)} tokens** — ${rounded}%`,
     snapshot.model ? `Model: \`${snapshot.model}\`` : undefined,
     `Input: ${snapshot.usage.inputTokens.toLocaleString()}`,
+    `Output: ${snapshot.usage.outputTokens.toLocaleString()}`,
     `Cache read: ${snapshot.usage.cacheReadInputTokens.toLocaleString()}`,
     `Cache created: ${snapshot.usage.cacheCreationInputTokens.toLocaleString()}`,
     `Last turn: ${age}`,
     "",
     "$(info) Read locally from the newest Claude Code transcript. No network requests are made."
   ].filter(Boolean).join("  \n");
-  return { text: `$(sparkle) Claude ${rounded}%`, tooltip, percent, severity };
+  return { text: `$(sparkle) ${tokens(snapshot.contextTokens)}/${tokens(limit)}`, tooltip, percent, severity };
 }

@@ -27,7 +27,7 @@ async function showUsage(): Promise<void> {
   const settings = config();
   const rendered = renderStatus(latest, settings.contextWindow);
   await vscode.window.showQuickPick([
-    { label: `$(dashboard) Context: ${rendered.percent.toFixed(1)}%`, description: `${latest.contextTokens.toLocaleString()} tokens` },
+    { label: `$(dashboard) ${latest.contextTokens.toLocaleString()} tokens`, description: `${rendered.percent.toFixed(1)}% of context window` },
     { label: "$(file) Open transcript", description: path.basename(latest.sourceFile), file: latest.sourceFile }
   ], { title: "Claude Code usage (local transcript)", placeHolder: `Captured ${latest.capturedAt.toLocaleString()}` }).then(async selected => {
     if (selected && "file" in selected && selected.file) await vscode.window.showTextDocument(vscode.Uri.file(selected.file));
